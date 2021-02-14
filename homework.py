@@ -46,8 +46,8 @@ class CashCalculator(Calculator):
 
     def get_today_cash_remained(self, currency):
         cash_value_deafult = round((self.limit) - (self.get_today_stats()), 2)
-        cash_value_usd = round((cash_value_deafult/self.USD_RATE), 2)
-        cash_value_euro = round((cash_value_deafult/self.EURO_RATE), 2)
+        cash_value_usd = round((cash_value_deafult / self.USD_RATE), 2)
+        cash_value_euro = round((cash_value_deafult / self.EURO_RATE), 2)
         if cash_value_deafult > 0:
             if currency == 'usd':
                 return (f'На сегодня осталось {cash_value_usd} USD')
