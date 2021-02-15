@@ -69,7 +69,7 @@ class CashCalculator(Calculator):
                             f'{abs(cash_value)} {value}')
                 else:
                     return ('Денег нет, держись')
-        except ValueError:
+        except KeyError:
             return ('Такой валюты нет')
 
 
@@ -82,3 +82,15 @@ class Record:
             self.date = dt.datetime.strptime(self.date, '%d.%m.%Y').date()
         else:
             self.date = today()
+
+
+
+cash_calculator = CashCalculator(1000)
+
+cash_calculator.add_record(Record(amount=145, comment='кофе'))
+
+cash_calculator.add_record(Record(amount=3000,
+                                  comment='бар в Танин др',
+                                  date='08.11.2019'))
+
+print(cash_calculator.get_today_cash_remained('eu'))
