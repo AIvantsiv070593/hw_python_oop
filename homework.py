@@ -59,15 +59,18 @@ class CashCalculator(Calculator):
                 'rub': {self.RUB_RATE: 'руб'}
                 }
         cash_value_deafult = round((self.limit) - (self.get_today_stats()), 2)
-        for key, value in dict[currency].items():
-            cash_value = round(cash_value_deafult / key, 2)
-            if cash_value > 0:
-                return (f'На сегодня осталось {cash_value} {value}')
-            elif cash_value < 0:
-                return (f'Денег нет, держись: твой долг - '
-                        f'{abs(cash_value)} {value}')
-            else:
-                return ('Денег нет, держись')
+        try:
+            for key, value in dict[currency].items():
+                cash_value = round(cash_value_deafult / key, 2)
+                if cash_value > 0:
+                    return (f'На сегодня осталось {cash_value} {value}')
+                elif cash_value < 0:
+                    return (f'Денег нет, держись: твой долг - '
+                            f'{abs(cash_value)} {value}')
+                else:
+                    return ('Денег нет, держись')
+        except ValueError:
+            return ('Такой валюты нет')
 
 
 class Record:
