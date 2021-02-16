@@ -2,42 +2,38 @@ import datetime as dt
 from datetime import timedelta as td
 
 
-def today():
-    return dt.datetime.now().date()
-
-
 class Calculator:
     def __init__(self, limit):
         self.limit = limit
         self.records = []
 
     def add_record(self, rec):
-        """Создает список записей"""
+        """Создает список записей."""
         self.records.append(rec)
-        return self.records
-
+        
     def get_today_stats(self):
-        """Статистика за день"""
+        """Статистика за день."""
         self.today_stats = 0
-        now_date = today()
+        now_date = dt.date.today()
         self.today_stats = sum(
             [record.amount for record in self.records
                 if record.date == now_date])
         return self.today_stats
 
     def get_week_stats(self):
-        """Статистика за последние 7 дней"""
+        """Статистика за последние 7 дней."""
         self.week_stats = 0
-        now_date = today()
+        now_date = dt.date.today()
+        next_days = (now_date - td(days=6))
         self.week_stats = sum(
             [record.amount for record in self.records
-                if now_date >= record.date >= (now_date - td(days=6))])
+                if now_date >= record.date >= next_days])
         return self.week_stats
 
 
 class CaloriesCalculator(Calculator):
     def get_calories_remained(self):
-        """Получаем остаток по каллориям на день"""
+        """Получаем остаток по каллориям на день."""
         if self.limit > self.get_today_stats():
             calories_remained = self.limit - self.get_today_stats()
             return ('Сегодня можно съесть что-нибудь ещё, '
@@ -52,7 +48,7 @@ class CashCalculator(Calculator):
     RUB_RATE = 1
 
     def get_today_cash_remained(self, currency):
-        """Получаем информацию об остатках денег на день"""
+        """Получаем информацию об остатках денег на день."""
 
         dict = {'usd': {self.USD_RATE: 'USD'},
                 'eur': {self.EURO_RATE: 'Euro'},
@@ -78,10 +74,10 @@ class Record:
         self.amount = amount
         self.comment = comment
         self.date = date
-        if type(self.date) == str:
-            self.date = dt.datetime.strptime(self.date, '%d.%m.%Y').date()
+        if date is None:
+            self.date = dt.date.today()
         else:
-            self.date = today()
+            self.date = dt.datetime.strptime(self.date, '%d.%m.%Y').date()
 
 
 
@@ -93,4 +89,4 @@ cash_calculator.add_record(Record(amount=3000,
                                   comment='бар в Танин др',
                                   date='08.11.2019'))
 
-print(cash_calculator.get_today_cash_remained('eu'))
+print(cash_calculator.get_today_cash_remained('eur'))
