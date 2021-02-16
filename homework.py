@@ -10,7 +10,7 @@ class Calculator:
     def add_record(self, rec):
         """Создает список записей."""
         self.records.append(rec)
-        
+
     def get_today_stats(self):
         """Статистика за день."""
         self.today_stats = 0
@@ -78,15 +78,3 @@ class Record:
             self.date = dt.date.today()
         else:
             self.date = dt.datetime.strptime(self.date, '%d.%m.%Y').date()
-
-
-
-cash_calculator = CashCalculator(1000)
-
-cash_calculator.add_record(Record(amount=145, comment='кофе'))
-
-cash_calculator.add_record(Record(amount=3000,
-                                  comment='бар в Танин др',
-                                  date='08.11.2019'))
-
-print(cash_calculator.get_today_cash_remained('eur'))
